@@ -69,8 +69,13 @@ body {
 
 .picture img {
 	width: 100%;
-
 }
+#carouselExampleIndicators button {
+    filter: brightness(1.2) contrast(1.1); 
+}
+
+
+
 #about-me {
 	flex: 2
 }
@@ -101,9 +106,13 @@ body {
 	justify-content: center;
 }
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-	color: #fff;
+	color: #000;
 	background-color: #BEB45A;
 	border-radius:0 ;
+	/* text-shadow: -1px -1px 0 #4d4815,
+	             1px -1px 0 #4d4815, 
+	             -1px 1px 0 #4d4815, 
+	              1px 1px 0 #4d4815;  */
 }
 .nav-pills .nav-link {
 	color: #000
