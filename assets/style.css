@@ -70,10 +70,10 @@ body {
 .picture img {
 	width: 100%;
 }
+
 #carouselExampleIndicators button {
     filter: brightness(1.2) contrast(1.1); 
 }
-
 
 
 #about-me {
