@@ -58,9 +58,11 @@
     });
 
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
-    $(".gallery").on("click", ".mg-prev", () =>
+    $(".gallery").on("click", ".mg-prev", () =>{
+      console.log("options.lightBox:", options.lightboxId)
       $.fn.mauGallery.methods.prevImage(options.lightboxId)
-    );
+    
+  });
     $(".gallery").on("click", ".mg-next", () =>
       $.fn.mauGallery.methods.nextImage(options.lightboxId)
     );
@@ -119,6 +121,18 @@
         .attr("src", element.attr("src"));
       $(`#${lightboxId}`).modal("toggle");
     },
+    getNextIndex(currentIndex, direction, collectionLength) {
+      if (direction === "next") {
+          // Перемикання вперед
+          return (currentIndex + 1) % collectionLength;
+      } else if (direction === "prev") {
+          // Перемикання назад
+          return (currentIndex - 1 + collectionLength) % collectionLength;
+      } else {
+          // Якщо напрямок не вказано, повертаємо поточний індекс
+          return currentIndex;
+      }
+    },
     prevImage() {
       let activeImage = null;
       $("img.gallery-item").each(function() {
@@ -145,6 +159,7 @@
           }
         });
       }
+      console.log("Images Collection:", imagesCollection);
       let index = 0,
         next = null;
 
@@ -153,10 +168,25 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
+      console.log("Active Image Index:", index);
+
+      // next =
+      //   imagesCollection[index] ||
+      //   imagesCollection[imagesCollection.length - 1];
+      // Le calcul de l'index de l'image suivante ou précédente n'est pas correctement 
+      // effectué. L'indice était toujours l'indice de l'image active.
+      // Pour résoudre ce problème, j'ai ajouté la méthode $.fn.mauGallery.methods
+      // .getNextIndex(index, direction, imagesCollection.length) - 
+      // qui renvoie l'index de l'image suivante ou précédente en fonction 
+      // de la direction (direction - "prev" et "next"). 
+      nextIndex = (index - 1 + imagesCollection.length) % imagesCollection.length;
+      // let nextIndex = $.fn.mauGallery.methods.getNextIndex(index, "prev", imagesCollection.length); // Круговий перехід
+      next = imagesCollection[nextIndex];
       $(".lightboxImage").attr("src", $(next).attr("src"));
+      console.log("Active image:", activeImage);
+      console.log("Images collection:", imagesCollection);
+      console.log("Index:", index);
+      console.log("Next Image:", next);
     },
     nextImage() {
       let activeImage = null;
@@ -192,7 +222,10 @@
           index = i;
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+      // next = imagesCollection[index] || imagesCollection[0];
+      nextIndex = (index + 1) % imagesCollection.length;
+      // let nextIndex = $.fn.mauGallery.methods.getNextIndex(index, "next", imagesCollection.length); // Круговий перехід
+      next = imagesCollection[nextIndex];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
@@ -240,7 +273,13 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      // Dans la fonction filterByTag, après avoir supprimé la classe active 
+      // $(« .active-tag »).removeClass(« active active-tag »), 
+      // elle n'est pas ajoutée à l'élément suivant à filtrer $(this).addClass(« active-tag »). 
+      // Mais dans le fichier styles.css, les options pour recolorer l'élément sélectionné 
+      // se trouvent dans la section .nav-link.active. Nous devons donc ajouter une classe active 
+      // à la balise, $(this).addClass(« active active-tag ») ;
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 
