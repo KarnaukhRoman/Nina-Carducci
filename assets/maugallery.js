@@ -121,18 +121,7 @@
         .attr("src", element.attr("src"));
       $(`#${lightboxId}`).modal("toggle");
     },
-    getNextIndex(currentIndex, direction, collectionLength) {
-      if (direction === "next") {
-          // Перемикання вперед
-          return (currentIndex + 1) % collectionLength;
-      } else if (direction === "prev") {
-          // Перемикання назад
-          return (currentIndex - 1 + collectionLength) % collectionLength;
-      } else {
-          // Якщо напрямок не вказано, повертаємо поточний індекс
-          return currentIndex;
-      }
-    },
+
     prevImage() {
       let activeImage = null;
       $("img.gallery-item").each(function() {
@@ -173,14 +162,8 @@
       // next =
       //   imagesCollection[index] ||
       //   imagesCollection[imagesCollection.length - 1];
-      // Le calcul de l'index de l'image suivante ou précédente n'est pas correctement 
-      // effectué. L'indice était toujours l'indice de l'image active.
-      // Pour résoudre ce problème, j'ai ajouté la méthode $.fn.mauGallery.methods
-      // .getNextIndex(index, direction, imagesCollection.length) - 
-      // qui renvoie l'index de l'image suivante ou précédente en fonction 
-      // de la direction (direction - "prev" et "next"). 
+ 
       nextIndex = (index - 1 + imagesCollection.length) % imagesCollection.length;
-      // let nextIndex = $.fn.mauGallery.methods.getNextIndex(index, "prev", imagesCollection.length); // Круговий перехід
       next = imagesCollection[nextIndex];
       $(".lightboxImage").attr("src", $(next).attr("src"));
       console.log("Active image:", activeImage);
@@ -224,7 +207,7 @@
       });
       // next = imagesCollection[index] || imagesCollection[0];
       nextIndex = (index + 1) % imagesCollection.length;
-      // let nextIndex = $.fn.mauGallery.methods.getNextIndex(index, "next", imagesCollection.length); // Круговий перехід
+     
       next = imagesCollection[nextIndex];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },

@@ -109,13 +109,14 @@ body {
 	color: #000;
 	background-color: #BEB45A;
 	border-radius:0 ;
-	/* text-shadow: -1px -1px 0 #4d4815,
-	             1px -1px 0 #4d4815, 
-	             -1px 1px 0 #4d4815, 
-	              1px 1px 0 #4d4815;  */
+
 }
 .nav-pills .nav-link {
 	color: #000
+}
+
+.nav-pills .nav-link:hover {
+	cursor: pointer;
 }
 .item-column {
 	position: relative;
